@@ -5,12 +5,30 @@ from requests.auth import HTTPBasicAuth
 import threading
 from configparser import ConfigParser
 from persons import *
+from android_sms_gateway import client, domain
 
 def call_api(text_content, selected_option, output_label):
     """Calls a dummy HTTP endpoint and updates the output label."""
     api_url = "http://" + ipaddr + ":" + port + "/message"
+    api_url = "http://" + ipaddr + ":" + port + "/"
 
     phoneNumbers = get_phone_numbers(loaded_groups,selected_option)
+
+    message = domain.Message(
+        text_content,
+        phoneNumbers
+    )
+
+    with client.APIClient(
+        username,
+        password,
+        base_url=api_url
+    ) as c:
+        state = c.send(message)
+        #print(state)
+
+        state = c.get_state(state.id)
+        #print(state)
 
     payload = {
         "message": text_content,
