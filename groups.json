@@ -1,0 +1,30 @@
+{
+    "groups": [
+        {
+            "name": "Group A",
+            "persons": [
+                {
+                    "name": "Alice",
+                    "phone_number": "123-456-7890"
+                },
+                {
+                    "name": "Bob",
+                    "phone_number": "987-654-3210"
+                }
+            ]
+        },
+        {
+            "name": "Group B",
+            "persons": [
+                {
+                    "name": "Bob",
+                    "phone_number": "987-654-3210"
+                },
+                {
+                    "name": "Charlie",
+                    "phone_number": "555-123-4567"
+                }
+            ]
+        }
+    ]
+}
