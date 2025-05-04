@@ -1,29 +1,40 @@
 import tkinter as tk
 from tkinter import ttk
-import requests
-from requests.auth import HTTPBasicAuth
 import threading
 from configparser import ConfigParser
 from persons import *
+from android_sms_gateway import client, domain, MessageState
+import time
 
 def call_api(text_content, selected_option, output_label):
     """Calls a dummy HTTP endpoint and updates the output label."""
     api_url = "http://" + ipaddr + ":" + port + "/message"
+    api_url = "http://" + ipaddr + ":" + port + "/"
 
     phoneNumbers = get_phone_numbers(loaded_groups,selected_option)
 
-    payload = {
-        "message": text_content,
-        "phoneNumbers": phoneNumbers
-    }
+    message = domain.Message(
+        text_content,
+        phoneNumbers
+    )
 
-    try:
-        response = requests.post(api_url, json=payload, auth = HTTPBasicAuth(username, password))
-        response.raise_for_status()  # Raise an exception for bad status codes
-        data = response.json()
-        output_label.config(text=f"API Response:\n{data}")
-    except requests.exceptions.RequestException as e:
-        output_label.config(text=f"Error calling API: {e}")
+    with client.APIClient(
+        username,
+        password,
+        base_url=api_url
+    ) as c:
+        state = c.send(message)
+        #print(state)
+
+        state = c.get_state(state.id)
+        while state.state == 'Pending':
+            time.sleep(0.5)
+            state = c.get_state(state.id)
+
+        if state.state == 'Failed':
+           output_label.config(text=f"Envio falhado")
+        else:
+            output_label.config(text=f"Envio efetuado com sucesso!")
 
 def on_button_click():
     """Handles the button click event."""
