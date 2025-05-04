@@ -1,14 +1,10 @@
 import tkinter as tk
-from threading import Thread
 from tkinter import ttk
-import requests
-from requests.auth import HTTPBasicAuth
 import threading
 from configparser import ConfigParser
 from persons import *
 from android_sms_gateway import client, domain, MessageState
 import time
-
 
 def call_api(text_content, selected_option, output_label):
     """Calls a dummy HTTP endpoint and updates the output label."""
