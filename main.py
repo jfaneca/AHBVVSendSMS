@@ -40,7 +40,7 @@ def on_button_click():
     """Handles the button click event."""
     text_content = text_field.get("1.0", tk.END).strip()
     selected_option = dropdown.get()
-    output_label.config(text="Calling API...")
+    output_label.config(text="A enviar ...")
     # Use a separate thread to avoid blocking the GUI
     threading.Thread(target=call_api, args=(text_content, selected_option, output_label)).start()
 
@@ -55,16 +55,16 @@ port = connections["port"]
 
 # Create the main window
 root = tk.Tk()
-root.title("Text Input and API Call")
+root.title("Envio de SMS")
 
 # Multiline Text Field
-text_label = tk.Label(root, text="Enter Text:")
+text_label = tk.Label(root, text="Texto do SMS:")
 text_label.pack(pady=5)
 text_field = tk.Text(root, height=5, width=40)
 text_field.pack(padx=10, pady=5)
 
 # Dropdown
-dropdown_label = tk.Label(root, text="Select Option:")
+dropdown_label = tk.Label(root, text="Escolha o grupo:")
 dropdown_label.pack(pady=5)
 
 options = []
@@ -78,7 +78,7 @@ dropdown.set(options[0])  # Set a default value
 dropdown.pack(padx=10, pady=5)
 
 # Button
-call_button = tk.Button(root, text="Call API", command=on_button_click)
+call_button = tk.Button(root, text="Enviar", command=on_button_click)
 call_button.pack(pady=10)
 
 # Output Label
