@@ -1,0 +1,12 @@
+{
+    "msgs": [
+        {
+            "title": "Titulo 1",
+            "detail": "Teste ao titulo 1"
+        },
+        {
+            "title": "Titulo 2",
+            "detail": "Teste ao titulo 2"
+        }
+    ]
+}
