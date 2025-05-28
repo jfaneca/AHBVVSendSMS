@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import ttk
 import threading
 from configparser import ConfigParser
+
+import msgs
+from msgs import loaded_msgs
 from persons import *
 from android_sms_gateway import client, domain, MessageState
 import time
@@ -44,6 +47,16 @@ def on_button_click():
     # Use a separate thread to avoid blocking the GUI
     threading.Thread(target=call_api, args=(text_content, selected_option, output_label)).start()
 
+def on_combobox_msg_selection(event):
+    """
+    This function is called when the combobox selection changes.
+    """
+    text_field.delete("1.0", tk.END)
+
+    selected_item = dropdownMsg.get()
+    new_msg = msgs.get_msg_txt(loaded_msgs, selected_item)
+    text_field.insert("1.0",new_msg)
+
 config_object = ConfigParser()
 config_object.read("config.ini")
 credentials = config_object["CREDENTIALS"]
@@ -76,6 +89,23 @@ if loaded_groups:
 dropdown = ttk.Combobox(root, values=options)
 dropdown.set(options[0])  # Set a default value
 dropdown.pack(padx=10, pady=5)
+
+
+# Dropdown
+dropdownMsg_label = tk.Label(root, text="Escolha o texto da mensagem:")
+dropdownMsg_label.pack(pady=5)
+
+msgOptions = []
+
+if loaded_msgs:
+    for msg in loaded_msgs:
+        msgOptions.append(msg.title)
+
+dropdownMsg = ttk.Combobox(root, values=msgOptions)
+dropdownMsg.set(msgOptions[0])  # Set a default value
+dropdownMsg.pack(padx=10, pady=5)
+# Bind the <<ComboboxSelected>> event to the on_combobox_selection function
+dropdownMsg.bind("<<ComboboxSelected>>", on_combobox_msg_selection)
 
 # Button
 call_button = tk.Button(root, text="Enviar", command=on_button_click)
