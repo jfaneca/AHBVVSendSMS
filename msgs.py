@@ -54,10 +54,8 @@ loaded_msgs = read_msgs_from_json(json_file)
 
 
 # Print the loaded data to verify
-#if loaded_groups:
-#    for group in loaded_groups:
-#        print(f"Group Name: {group.name}")
-#        for person in group.persons:
-#            print(f"  Person Name: {person.name}, Phone: {person.phone_number}")
+#if loaded_msgs:
+#    for msg in loaded_msgs:
+#        print(f"Message title: {msg.title}, message detail: {msg.detail}")
 #else:
-#    print("No groups loaded or error occurred during loading.")
+#    print("No messages loaded or error occurred during loading.")
