@@ -61,6 +61,16 @@ def get_phone_numbers(groups, group_name):
                     phone_numbers.append(person.phone_number)
     return phone_numbers
 
+def get_all_names_in_order(groups):
+    all_names = set()  # Use a set to store unique names
+    for group in groups:
+        for person in group.persons:
+            all_names.add(person.name)  # Add names to the set; duplicates are ignored
+
+    # Convert the set to a list and sort it
+    ordered_unique_names = sorted(list(all_names))
+    return ordered_unique_names
+
 # Example Usage:
 # Create some Person and Group objects
 person1 = Person("Alice", "123-456-7890")

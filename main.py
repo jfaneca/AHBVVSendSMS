@@ -57,6 +57,15 @@ def on_combobox_msg_selection(event):
     new_msg = msgs.get_msg_txt(loaded_msgs, selected_item)
     text_field.insert("1.0",new_msg)
 
+def populate_checkbox_names(main_window, scrollable_frame, checkbox_vars):
+    all_names = get_all_names_in_order(loaded_groups)
+    """Generates checkboxes for each person in the list."""
+    for i, person_name in enumerate(all_names):
+        var = tk.BooleanVar()
+        checkbox_vars.append(var)
+        checkbox = ttk.Checkbutton(scrollable_frame, text=person_name, variable=var)
+        checkbox.grid(row=i, column=0, sticky="w", padx=5, pady=2)
+
 config_object = ConfigParser()
 config_object.read("config.ini")
 credentials = config_object["CREDENTIALS"]
@@ -79,6 +88,26 @@ text_field.pack(padx=10, pady=5)
 # Dropdown
 dropdown_label = tk.Label(root, text="Escolha o grupo:")
 dropdown_label.pack(pady=5)
+
+checkbox_vars = []  # To store BooleanVar for each checkbox
+
+# Create a Canvas and a Scrollbar
+canvas = tk.Canvas(root)
+scrollbar = ttk.Scrollbar(root, orient="vertical", command=canvas.yview)
+scrollable_frame = ttk.Frame(canvas)
+
+scrollable_frame.bind(
+    "<Configure>",
+    lambda e: canvas.configure(
+        scrollregion=canvas.bbox("all")
+    )
+)
+
+canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+canvas.configure(yscrollcommand=scrollbar.set)
+
+canvas.pack(side="left", fill="both", expand=True)
+scrollbar.pack(side="right", fill="y")
 
 options = []
 
@@ -114,6 +143,8 @@ call_button.pack(pady=10)
 # Output Label
 output_label = tk.Label(root, text="")
 output_label.pack(pady=10)
+
+populate_checkbox_names(root, scrollable_frame, checkbox_vars)
 
 # Start the Tkinter event loop
 root.mainloop()
