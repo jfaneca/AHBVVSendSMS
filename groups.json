@@ -4,12 +4,12 @@
             "name": "Group A",
             "persons": [
                 {
-                    "name": "Alice",
-                    "phone_number": "123-456-7890"
+                    "name": "Joao",
+                    "phone_number": "933900125"
                 },
                 {
-                    "name": "Bob",
-                    "phone_number": "987-654-3210"
+                    "name": "Sandra",
+                    "phone_number": "962918999"
                 }
             ]
         },
