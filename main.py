@@ -42,10 +42,15 @@ def call_api(text_content, selected_option, output_label):
 def on_button_click():
     """Handles the button click event."""
     text_content = text_field.get("1.0", tk.END).strip()
-    selected_option = dropdown.get()
+    selected_option = dropdownGrps.get()
     output_label.config(text="A enviar ...")
     # Use a separate thread to avoid blocking the GUI
     threading.Thread(target=call_api, args=(text_content, selected_option, output_label)).start()
+
+def on_combobox_grp_selection(event):
+    for var in enumerate(checkbox_vars):
+        i = 1
+
 
 def on_combobox_msg_selection(event):
     """
@@ -87,16 +92,15 @@ main_frame.pack(fill=tk.BOTH, expand=True)
 left_frame = tk.Frame(main_frame)
 left_frame.pack(side=tk.LEFT, fill=tk.Y)
 
-
 canvas = tk.Canvas(left_frame, width=200)
 scrollbar = ttk.Scrollbar(left_frame, orient="vertical", command=canvas.yview)
 scrollable_frame = ttk.Frame(canvas)
 
 scrollable_frame.bind(
-    "<Configure>",
-    lambda e: canvas.configure(
-        scrollregion=canvas.bbox("all")
-    )
+    "<Configure>",
+    lambda e: canvas.configure(
+    scrollregion=canvas.bbox("all")
+    )
 )
 
 canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
@@ -127,10 +131,11 @@ if loaded_groups:
     for group in loaded_groups:
         options.append(group.name)
 
-dropdown = ttk.Combobox(right_frame, values=options)
-dropdown.set(options[0])  # Set a default value
-dropdown.pack(padx=10, pady=5)
-
+dropdownGrps = ttk.Combobox(right_frame, values=options)
+dropdownGrps.set(options[0])  # Set a default value
+dropdownGrps.pack(padx=10, pady=5)
+# Bind the <<ComboboxSelected>> event to the on_combobox_selection function
+dropdownGrps.bind("<<ComboboxSelected>>", on_combobox_grp_selection)
 
 # Dropdown
 dropdownMsg_label = tk.Label(right_frame, text="Escolha o texto da mensagem:")
