@@ -79,28 +79,24 @@ port = connections["port"]
 root = tk.Tk()
 root.title("Envio de SMS")
 
-# Multiline Text Field
-text_label = tk.Label(root, text="Texto do SMS:")
-text_label.pack(pady=5)
-text_field = tk.Text(root, height=5, width=40)
-text_field.pack(padx=10, pady=5)
+# Create the main container frame
+main_frame = tk.Frame(root)
+main_frame.pack(fill=tk.BOTH, expand=True)
 
-# Dropdown
-dropdown_label = tk.Label(root, text="Escolha o grupo:")
-dropdown_label.pack(pady=5)
+# Left frame with scrollable checkboxes
+left_frame = tk.Frame(main_frame)
+left_frame.pack(side=tk.LEFT, fill=tk.Y)
 
-checkbox_vars = []  # To store BooleanVar for each checkbox
 
-# Create a Canvas and a Scrollbar
-canvas = tk.Canvas(root)
-scrollbar = ttk.Scrollbar(root, orient="vertical", command=canvas.yview)
+canvas = tk.Canvas(left_frame, width=200)
+scrollbar = ttk.Scrollbar(left_frame, orient="vertical", command=canvas.yview)
 scrollable_frame = ttk.Frame(canvas)
 
 scrollable_frame.bind(
-    "<Configure>",
-    lambda e: canvas.configure(
-        scrollregion=canvas.bbox("all")
-    )
+    "<Configure>",
+    lambda e: canvas.configure(
+        scrollregion=canvas.bbox("all")
+    )
 )
 
 canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
@@ -109,19 +105,35 @@ canvas.configure(yscrollcommand=scrollbar.set)
 canvas.pack(side="left", fill="both", expand=True)
 scrollbar.pack(side="right", fill="y")
 
+# Right frame for all other UI elements
+right_frame = tk.Frame(main_frame)
+right_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=10)
+
+# Multiline Text Field
+text_label = tk.Label(right_frame, text="Texto do SMS:")
+text_label.pack(pady=5)
+text_field = tk.Text(right_frame, height=5, width=40)
+text_field.pack(padx=10, pady=5)
+
+# Dropdown
+dropdown_label = tk.Label(right_frame, text="Escolha o grupo:")
+dropdown_label.pack(pady=5)
+
+checkbox_vars = []  # To store BooleanVar for each checkbox
+
 options = []
 
 if loaded_groups:
     for group in loaded_groups:
         options.append(group.name)
 
-dropdown = ttk.Combobox(root, values=options)
+dropdown = ttk.Combobox(right_frame, values=options)
 dropdown.set(options[0])  # Set a default value
 dropdown.pack(padx=10, pady=5)
 
 
 # Dropdown
-dropdownMsg_label = tk.Label(root, text="Escolha o texto da mensagem:")
+dropdownMsg_label = tk.Label(right_frame, text="Escolha o texto da mensagem:")
 dropdownMsg_label.pack(pady=5)
 
 msgOptions = []
@@ -130,21 +142,21 @@ if loaded_msgs:
     for msg in loaded_msgs:
         msgOptions.append(msg.title)
 
-dropdownMsg = ttk.Combobox(root, values=msgOptions)
+dropdownMsg = ttk.Combobox(right_frame, values=msgOptions)
 dropdownMsg.set(msgOptions[0])  # Set a default value
 dropdownMsg.pack(padx=10, pady=5)
 # Bind the <<ComboboxSelected>> event to the on_combobox_selection function
 dropdownMsg.bind("<<ComboboxSelected>>", on_combobox_msg_selection)
 
 # Button
-call_button = tk.Button(root, text="Enviar", command=on_button_click)
+call_button = tk.Button(right_frame, text="Enviar", command=on_button_click)
 call_button.pack(pady=10)
 
 # Output Label
-output_label = tk.Label(root, text="")
+output_label = tk.Label(right_frame, text="")
 output_label.pack(pady=10)
 
-populate_checkbox_names(root, scrollable_frame, checkbox_vars)
+populate_checkbox_names(left_frame, scrollable_frame, checkbox_vars)
 
 # Start the Tkinter event loop
 root.mainloop()
