@@ -52,14 +52,32 @@ def read_groups_from_json(filename):
         print(f"An error occurred while reading from {filename}: {e}")
         return []  # Return an empty list in case of other errors
 
-def get_phone_numbers(groups, group_name):
-    phone_numbers = []
+def get_phone_by_person_name(groups, person_name):
+    if groups:
+        for group in groups:
+            for person in group.persons:
+                if person.name == person_name:
+                    return person.phone_number
+    return None
+
+def get_names_by_group(groups, group_name):
+    names = {}
     if groups:
         for group in groups:
             if group.name == group_name:
                 for person in group.persons:
-                    phone_numbers.append(person.phone_number)
-    return phone_numbers
+                    names[person.name] = True
+    return names
+
+def get_all_names_in_order(groups):
+    all_names = set()  # Use a set to store unique names
+    for group in groups:
+        for person in group.persons:
+            all_names.add(person.name)  # Add names to the set; duplicates are ignored
+
+    # Convert the set to a list and sort it
+    ordered_unique_names = sorted(list(all_names))
+    return ordered_unique_names
 
 # Example Usage:
 # Create some Person and Group objects
