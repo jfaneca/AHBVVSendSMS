@@ -9,16 +9,14 @@ from persons import *
 from android_sms_gateway import client, domain, MessageState
 import time
 
-def call_api(text_content, selected_option, output_label):
+def call_api(text_content, phone_numbers, output_label):
     """Calls a dummy HTTP endpoint and updates the output label."""
     api_url = "http://" + ipaddr + ":" + port + "/message"
     api_url = "http://" + ipaddr + ":" + port + "/"
 
-    phoneNumbers = get_phone_numbers(loaded_groups,selected_option)
-
     message = domain.Message(
         text_content,
-        phoneNumbers
+        phone_numbers
     )
 
     with client.APIClient(
@@ -39,13 +37,22 @@ def call_api(text_content, selected_option, output_label):
         else:
             output_label.config(text=f"Envio efetuado com sucesso!")
 
+
+def get_phone_numbers_2_send_sms():
+    phone_numbers = []
+    for var,name in checkbox_vars:
+        if var.get():
+            phone_number = get_phone_by_person_name(loaded_groups, name)
+            phone_numbers.append(phone_number)
+    return phone_numbers
+
 def on_button_click():
     """Handles the button click event."""
     text_content = text_field.get("1.0", tk.END).strip()
-    selected_option = dropdownGrps.get()
+    phone_numbers = get_phone_numbers_2_send_sms()
     output_label.config(text="A enviar ...")
     # Use a separate thread to avoid blocking the GUI
-    threading.Thread(target=call_api, args=(text_content, selected_option, output_label)).start()
+    threading.Thread(target=call_api, args=(text_content, phone_numbers, output_label)).start()
 
 def on_combobox_grp_selection(event):
     # let us clear all values that might be selected
