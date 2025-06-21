@@ -61,6 +61,15 @@ def get_phone_numbers(groups, group_name):
                     phone_numbers.append(person.phone_number)
     return phone_numbers
 
+def get_names_by_group(groups, group_name):
+    names = {}
+    if groups:
+        for group in groups:
+            if group.name == group_name:
+                for person in group.persons:
+                    names[person.name] = True
+    return names
+
 def get_all_names_in_order(groups):
     all_names = set()  # Use a set to store unique names
     for group in groups:

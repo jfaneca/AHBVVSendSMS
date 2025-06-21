@@ -48,9 +48,14 @@ def on_button_click():
     threading.Thread(target=call_api, args=(text_content, selected_option, output_label)).start()
 
 def on_combobox_grp_selection(event):
-    # let us celar all values
-    for var in checkbox_vars:
+    # let us clear all values that might be selected
+    for var,name in checkbox_vars:
         var.set(False)
+    selected_group = dropdownGrps.get()
+    names = get_names_by_group(loaded_groups,selected_group)
+    for var,name in checkbox_vars:
+        if name in names:
+            var.set(True)
 
 def on_combobox_msg_selection(event):
     """
@@ -67,7 +72,7 @@ def populate_checkbox_names(main_window, scrollable_frame, checkbox_vars):
     """Generates checkboxes for each person in the list."""
     for i, person_name in enumerate(all_names):
         var = tk.BooleanVar()
-        checkbox_vars.append(var)
+        checkbox_vars.append((var,person_name))
         checkbox = ttk.Checkbutton(scrollable_frame, text=person_name, variable=var)
         checkbox.grid(row=i, column=0, sticky="w", padx=5, pady=2)
 
