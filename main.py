@@ -48,9 +48,9 @@ def on_button_click():
     threading.Thread(target=call_api, args=(text_content, selected_option, output_label)).start()
 
 def on_combobox_grp_selection(event):
-    for var in enumerate(checkbox_vars):
-        i = 1
-
+    # let us celar all values
+    for var in checkbox_vars:
+        var.set(False)
 
 def on_combobox_msg_selection(event):
     """
