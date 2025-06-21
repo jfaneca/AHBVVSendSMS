@@ -1,6 +1,17 @@
-# Text Input and API Call GUI
+# Sending SMSs from a PC, via an android mobile phone, using pre-defined messages and pre-defined groups
 
-This Python script creates a simple graphical user interface (GUI) using Tkinter. It features a multiline text field for user input, a dropdown menu for selecting an option, and a button that triggers an HTTP POST request to a specified endpoint. The response from the API is then displayed in the GUI.
+This application is a PC client GUI of "SMS Gateway" application running on an Android mobile phone.
+It fires up http requests against a mobile phone.
+The mobile app was taken from
+https://sms-gate.app/
+https://github.com/capcom6/android-sms-gateway
+It was tested against version 1.34.0
+
+## Packaging the application, producing an exe file (python is not required to be installed at the machone running the app)
+
+At the top level folder, execute packager.bat
+It will generate an exe file under dist folder
+
 
 ## Prerequisites
 
