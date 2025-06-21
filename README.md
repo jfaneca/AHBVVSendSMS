@@ -1,8 +1,8 @@
-# Sending SMSs from a PC, via an android mobile phone, using pre-defined messages and pre-defined groups
+# Sending SMSs from a PC, via an android mobile phone, using predefined messages and predefined groups
 
 This application is a PC client GUI of "SMS Gateway" application running on an Android mobile phone.
 <br>
-It fires up http requests against a mobile phone.
+It fires up http requests against a mobile phone, allowing a user to send predefined text messages to a list of predefined users.
 <br>
 The mobile app was taken from:
 <br>
@@ -19,8 +19,7 @@ It was tested against version 1.34.0
 At the top level folder, execute packager.bat
 It will generate an exe file under dist folder
 
-
-## Prerequisites
+## Development prerequisites
 
 * **Python 3.x** installed on your system.
 * The **requests** library. You can install it using pip:
@@ -29,7 +28,7 @@ It will generate an exe file under dist folder
     pip install -r requirements.txt
     ```
 
-## Installation
+## Development installation
 
 1.  Save the Python code provided (e.g., as `api_gui.py`).
 2.  Create a file named `requirements.txt` in the same directory as the Python script.
@@ -49,7 +48,7 @@ It will generate an exe file under dist folder
 1.  Run the Python script from your terminal:
 
     ```bash
-    python api_gui.py
+    python main.py
     ```
 
 2.  A window titled "Text Input and API Call" will appear.
