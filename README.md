@@ -1,10 +1,17 @@
 # Sending SMSs from a PC, via an android mobile phone, using pre-defined messages and pre-defined groups
 
 This application is a PC client GUI of "SMS Gateway" application running on an Android mobile phone.
+<br>
 It fires up http requests against a mobile phone.
-The mobile app was taken from
+<br>
+The mobile app was taken from:
+<br>
 https://sms-gate.app/
+<br>
+Github repo for the ap is at:
+<br>
 https://github.com/capcom6/android-sms-gateway
+<br>
 It was tested against version 1.34.0
 
 ## Packaging the application, producing an exe file (python is not required to be installed at the machone running the app)
