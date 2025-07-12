@@ -46,13 +46,19 @@ def get_phone_numbers_2_send_sms():
             phone_numbers.append(phone_number)
     return phone_numbers
 
-def on_button_click():
-    """Handles the button click event."""
+def on_send_button_click():
+    """Handles the send button click event."""
     text_content = text_field.get("1.0", tk.END).strip()
     phone_numbers = get_phone_numbers_2_send_sms()
     output_label.config(text="A enviar ...")
     # Use a separate thread to avoid blocking the GUI
     threading.Thread(target=call_api, args=(text_content, phone_numbers, output_label)).start()
+
+def on_unselect_button_click():
+    """Handles the unselect button click event."""
+    # let us clear all values that might be selected
+    for var, name in checkbox_vars:
+        var.set(False)
 
 def on_combobox_grp_selection(event):
     # let us clear all values that might be selected
@@ -103,6 +109,10 @@ main_frame.pack(fill=tk.BOTH, expand=True)
 # Left frame with scrollable checkboxes
 left_frame = tk.Frame(main_frame)
 left_frame.pack(side=tk.LEFT, fill=tk.Y)
+
+# unselect Button
+unselect_button = tk.Button(left_frame, text="Desmarcar tudo", command=on_unselect_button_click)
+unselect_button.pack(pady=10)
 
 canvas = tk.Canvas(left_frame, width=200)
 scrollbar = ttk.Scrollbar(left_frame, orient="vertical", command=canvas.yview)
@@ -165,9 +175,9 @@ dropdownMsg.pack(padx=10, pady=5)
 # Bind the <<ComboboxSelected>> event to the on_combobox_selection function
 dropdownMsg.bind("<<ComboboxSelected>>", on_combobox_msg_selection)
 
-# Button
-call_button = tk.Button(right_frame, text="Enviar", command=on_button_click)
-call_button.pack(pady=10)
+# Send Button
+send_button = tk.Button(right_frame, text="Enviar", command=on_send_button_click)
+send_button.pack(pady=10)
 
 # Output Label
 output_label = tk.Label(right_frame, text="")
